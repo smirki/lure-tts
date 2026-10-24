@@ -2,11 +2,11 @@
 
 ## 1. Get the model
 
-Download Lure from [smirki/lure-tts-0.6b-preview](https://huggingface.co/smirki/lure-tts-0.6b-preview) or Lure Turbo
-from [smirki/lure-turbo-tts-0.6b-preview](https://huggingface.co/smirki/lure-turbo-tts-0.6b-preview) (both 0.6B):
+Download Lure from [Tesslate/Lure-TTS-0.6B](https://huggingface.co/Tesslate/Lure-TTS-0.6B) or Lure Turbo
+from [Tesslate/Lure-TTS-Turbo](https://huggingface.co/Tesslate/Lure-TTS-Turbo) (both 0.6B):
 
 ```bash
-hf download smirki/lure-tts-0.6b-preview --local-dir models/lure
+hf download Tesslate/Lure-TTS-0.6B --local-dir models/lure
 ```
 
 Lure TTS loads Qwen3-TTS 12Hz checkpoints in their Hugging Face layout: 0.6B and 1.7B Base, CustomVoice and

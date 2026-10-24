@@ -71,12 +71,12 @@ Download a model folder from Hugging Face:
 
 | Model | Size | Link |
 |---|---|---|
-| Lure | 0.6B | [smirki/lure-tts-0.6b-preview](https://huggingface.co/smirki/lure-tts-0.6b-preview) |
-| Lure Turbo | 0.6B | [smirki/lure-turbo-tts-0.6b-preview](https://huggingface.co/smirki/lure-turbo-tts-0.6b-preview) |
+| Lure | 0.6B | [Tesslate/Lure-TTS-0.6B](https://huggingface.co/Tesslate/Lure-TTS-0.6B) |
+| Lure Turbo | 0.6B | [Tesslate/Lure-TTS-Turbo](https://huggingface.co/Tesslate/Lure-TTS-Turbo) |
 
 ```bash
 git clone https://github.com/smirki/lure-tts && cd lure-tts
-hf download smirki/lure-tts-0.6b-preview --local-dir models/lure
+hf download Tesslate/Lure-TTS-0.6B --local-dir models/lure
 ```
 
 Point `--model` or `LURE_MODEL` at the downloaded folder. Stock Qwen3-TTS 12Hz checkpoints work the same way.

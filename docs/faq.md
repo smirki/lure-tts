@@ -52,6 +52,6 @@ Qwen3-TTS 12Hz 0.6B and 1.7B (Base, CustomVoice, VoiceDesign) and the Lure famil
 them; the stock checkpoints are tested on fixtures, not yet with real weights ([README](../README.md#backend-status)).
 
 **Where do I get the model?**
-From Hugging Face: Lure is [smirki/lure-tts-0.6b-preview](https://huggingface.co/smirki/lure-tts-0.6b-preview) and
-Lure Turbo is [smirki/lure-turbo-tts-0.6b-preview](https://huggingface.co/smirki/lure-turbo-tts-0.6b-preview). Both are
+From Hugging Face: Lure is [Tesslate/Lure-TTS-0.6B](https://huggingface.co/Tesslate/Lure-TTS-0.6B) and
+Lure Turbo is [Tesslate/Lure-TTS-Turbo](https://huggingface.co/Tesslate/Lure-TTS-Turbo). Both are
 0.6B. The stock Qwen3-TTS 12Hz checkpoints load from their own Hugging Face repositories.
