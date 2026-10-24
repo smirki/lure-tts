@@ -1,0 +1,6 @@
+# score.py: Qwen3-ASR + ECAPA speaker similarity
+torch
+qwen-asr
+speechbrain==1.1.1
+librosa
+soundfile

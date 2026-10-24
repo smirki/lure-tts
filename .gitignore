@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv*/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+
+# Builds
+build/
+*.dylib
+*.so
+*.gguf
+
+# Local models, outputs and caches
+models/
+runs/
+results/
+*.safetensors
+!conformance/turbo/fixtures/*.safetensors
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,114 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENGINE_ENABLE_CUDA": "OFF",
+        "ENGINE_ENABLE_VULKAN": "OFF",
+        "ENGINE_ENABLE_METAL": "OFF"
+      }
+    },
+    {
+      "name": "macos-metal",
+      "displayName": "macOS Metal (Apple silicon)",
+      "inherits": "base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
+      "cacheVariables": {
+        "ENGINE_ENABLE_METAL": "ON",
+        "GGML_METAL_EMBED_LIBRARY": "ON",
+        "LURE_METAL_AOT": "ON",
+        "ENGINE_ENABLE_OPENMP": "OFF"
+      }
+    },
+    {
+      "name": "macos-cpu",
+      "displayName": "macOS CPU only",
+      "inherits": "base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
+      "cacheVariables": { "ENGINE_ENABLE_OPENMP": "OFF" }
+    },
+    {
+      "name": "linux-cpu",
+      "displayName": "Linux CPU (portable, all x86 variants)",
+      "inherits": "base",
+      "cacheVariables": {
+        "ENGINE_ENABLE_NATIVE_CPU": "OFF",
+        "ENGINE_ENABLE_CPU_ALL_VARIANTS": "ON"
+      }
+    },
+    {
+      "name": "linux-cpu-native",
+      "displayName": "Linux CPU (this host's ISA only)",
+      "inherits": "base"
+    },
+    {
+      "name": "linux-cuda",
+      "displayName": "Linux CUDA",
+      "inherits": "base",
+      "cacheVariables": {
+        "ENGINE_ENABLE_CUDA": "ON",
+        "ENGINE_ENABLE_NATIVE_CPU": "OFF",
+        "CMAKE_CUDA_ARCHITECTURES": "75;80;86;89;90"
+      }
+    },
+    {
+      "name": "linux-vulkan",
+      "displayName": "Linux Vulkan",
+      "inherits": "base",
+      "cacheVariables": { "ENGINE_ENABLE_VULKAN": "ON", "ENGINE_ENABLE_NATIVE_CPU": "OFF" }
+    },
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "inherits": "base",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+      }
+    },
+    {
+      "name": "windows-cpu",
+      "displayName": "Windows MSVC CPU (untested)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "ENGINE_ENABLE_NATIVE_CPU": "OFF",
+        "ENGINE_ENABLE_CPU_ALL_VARIANTS": "ON"
+      }
+    },
+    {
+      "name": "windows-cuda",
+      "displayName": "Windows MSVC CUDA (untested)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "ENGINE_ENABLE_CUDA": "ON",
+        "ENGINE_ENABLE_NATIVE_CPU": "OFF",
+        "CMAKE_CUDA_ARCHITECTURES": "75;80;86;89;90"
+      }
+    },
+    {
+      "name": "windows-vulkan",
+      "displayName": "Windows MSVC Vulkan (untested)",
+      "inherits": "windows-base",
+      "cacheVariables": { "ENGINE_ENABLE_VULKAN": "ON", "ENGINE_ENABLE_NATIVE_CPU": "OFF" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "macos-metal", "configurePreset": "macos-metal" },
+    { "name": "macos-cpu", "configurePreset": "macos-cpu" },
+    { "name": "linux-cpu", "configurePreset": "linux-cpu" },
+    { "name": "linux-cpu-native", "configurePreset": "linux-cpu-native" },
+    { "name": "linux-cuda", "configurePreset": "linux-cuda" },
+    { "name": "linux-vulkan", "configurePreset": "linux-vulkan" },
+    { "name": "windows-cpu", "configurePreset": "windows-cpu" },
+    { "name": "windows-cuda", "configurePreset": "windows-cuda" },
+    { "name": "windows-vulkan", "configurePreset": "windows-vulkan" }
+  ]
+}

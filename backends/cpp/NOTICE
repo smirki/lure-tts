@@ -1,0 +1,49 @@
+Lure TTS, cpp backend
+
+This directory is a modified copy of audio.cpp by 0xShug0 (https://github.com/0xShug0/audio.cpp),
+Copyright 2026 ShugoAI LLC, licensed under the Apache License 2.0 (see LICENSE, unchanged).
+It is based on upstream commit d19c748b.
+
+Changes made for the Lure TTS (2026), as required by section 4(b) of the license:
+
+- Scope: only the Qwen3-TTS model path, the framework code it links, ggml and the vendored
+  libraries it needs are kept. Other model families, the upstream CLI, server, web UI, model
+  manager, upstream C API, tests, scripts and documentation were removed, and CMakeLists.txt
+  was rewritten for the reduced tree. src/framework/audio/dsp.* lost an unused log-mel
+  extractor, and comments throughout src/ and include/ were edited.
+- Qwen3-TTS prompt (src/models/qwen3_tts/, include/engine/models/qwen3_tts/): a per-segment
+  prompt builder (prompt_segment.cpp) for the icl, xvec, custom_voice and voice_design modes
+  in both the non_streaming and streaming layouts, x-vector-only voices, an instruct
+  (direction) prefix in every mode, dialect speakers with language auto, NFC-normalized
+  tokenization, a prefill recipe dump with mode, layout and trailing rows, an incremental
+  attention-mask upload in the talker's cached step, and a 72-frame left context for the
+  streaming codec decode.
+- Loader (assets.cpp): tensor shape checks against config.json for the 0.6B and 1.7B
+  Base, CustomVoice and VoiceDesign checkpoints, a config-and-tokenizer-only metadata path,
+  case-insensitive speaker names, and a Turbo hidden size taken from the code predictor.
+- Turbo head: grouped code predictor (turbo_head.cpp, turbo_head.h) selected from turbo.json,
+  and the converter's support for it (app/gguf/main.cpp, model_specs/qwen3_tts.json).
+- New: the Lure TTS C API (include/lure_tts.h, src/lure/), lure_cli with its HTTP
+  server (app/lure/), the Python ctypes binding (python/lure_cpp), the prompt conformance
+  tool (tools/lure/) and the unit tests (tests/).
+- Converter (app/gguf/main.cpp, src/framework/assets/tensor_source.cpp): --hf-dir input and
+  symlinked sidecar directories.
+- ggml Metal (external/ggml/src/ggml-metal/ggml-metal-device.m): optional lookup of
+  precompiled metallibs next to the library.
+- CMakePresets.json with portable CPU flags for the GPU presets.
+
+Modified files keep the Apache-2.0 terms.
+
+Third-party code in external/ keeps its own license; each folder carries its license file:
+
+  ggml              Copyright (c) 2023-2026 The ggml authors. MIT License.
+  llama_tokenizer   BPE and Unicode tables derived from llama.cpp, Copyright (c) The ggml
+                    authors. MIT License.
+  cpp-httplib       Copyright (c) 2017 yhirose. MIT License.
+  cJSON             Copyright (c) 2009-2017 Dave Gamble and cJSON contributors. MIT License.
+  libyaml           Copyright (c) 2017-2020 Ingy döt Net, Copyright (c) 2006-2016 Kirill
+                    Simonov. MIT License.
+  utf8proc          Copyright (c) 2014-2021 Steven G. Johnson, Jiahao Chen, Tony Kelman,
+                    Jonas Fonseca, and other contributors; Copyright (c) 2009, 2013 Public
+                    Software Group e. V., Berlin. MIT License. Includes Unicode data,
+                    Copyright (c) 1991-2007 Unicode, Inc. (see external/utf8proc/LICENSE.md).

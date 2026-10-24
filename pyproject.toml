@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lure-tts"
+version = "0.1.0"
+description = "Lure TTS: streaming API, CLI and OpenAI-compatible server for Qwen3-TTS 12Hz and Lure checkpoints over mlx, cuda and cpp backends"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = [
+  "numpy>=1.24",
+  "regex>=2023.0",
+  "soundfile>=0.12",
+  "soxr>=0.3",
+]
+
+[project.optional-dependencies]
+server = ["fastapi>=0.110", "uvicorn>=0.27"]
+play = ["sounddevice>=0.4"]
+dev = ["pytest>=7", "httpx>=0.25", "fastapi>=0.110", "uvicorn>=0.27"]
+
+[project.scripts]
+lure = "lure_tts.cli:main"
+
+[project.entry-points."lure.backends"]
+fake = "lure_tts.backends.fake:FakeBackend"
+
+[tool.setuptools.packages.find]
+where = ["core"]
+include = ["lure_tts*"]
+
+[tool.pytest.ini_options]
+testpaths = ["core/tests", "conformance"]

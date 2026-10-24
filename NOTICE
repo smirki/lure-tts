@@ -1,0 +1,41 @@
+Lure TTS
+Copyright 2026 The Lure TTS authors
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository includes code from the projects below. Each keeps its own license; the license files ship next to the
+code they cover. Changes to upstream code are described in each backend's README, and for audio.cpp in
+backends/cpp/NOTICE.
+
+Backends
+--------
+backends/cuda/
+    faster-qwen3-tts, https://github.com/andimarafioti/faster-qwen3-tts
+    Copyright (c) 2026 Andres Marafioti. MIT License (backends/cuda/LICENSE-faster-qwen3-tts).
+
+backends/mlx/
+    mlx-audio, https://github.com/Blaizzy/mlx-audio
+    Copyright (c) 2024 Prince Canuma. MIT License (backends/mlx/LICENSE-mlx-audio).
+
+backends/cpp/
+    audio.cpp, https://github.com/0xShug0/audio.cpp
+    Copyright 2026 ShugoAI LLC. Apache License 2.0 (backends/cpp/LICENSE).
+
+Third-party code vendored by audio.cpp (backends/cpp/external/)
+----------------------------------------------------------------
+ggml                 Copyright (c) 2023-2026 The ggml authors. MIT License.
+llama_tokenizer      BPE and Unicode tables derived from llama.cpp, Copyright (c) The ggml authors. MIT License.
+cpp-httplib          Copyright (c) 2017 yhirose. MIT License.
+cJSON                Copyright (c) 2009-2017 Dave Gamble and cJSON contributors. MIT License.
+libyaml              Copyright (c) 2017-2020 Ingy döt Net, Copyright (c) 2006-2016 Kirill Simonov. MIT License.
+utf8proc             Copyright (c) 2014-2021 Steven G. Johnson, Jiahao Chen, Tony Kelman, Jonas Fonseca, and other
+                     contributors; Copyright (c) 2009, 2013 Public Software Group e. V., Berlin. MIT License.
+                     Includes Unicode data, Copyright (c) 1991-2007 Unicode, Inc. (Unicode data license,
+                     see external/utf8proc/LICENSE.md).
+
+Runtime dependencies (installed by pip, not included here)
+-----------------------------------------------------------
+qwen-tts / qwen-tts-hf (Qwen3-TTS reference implementation, Apache License 2.0), PyTorch (BSD-3-Clause),
+transformers (Apache License 2.0), MLX (MIT), numpy (BSD-3-Clause), soundfile (BSD-3-Clause), soxr (LGPL-2.1+),
+FastAPI (MIT), uvicorn (BSD-3-Clause). The conformance scorer uses Qwen3-ASR (Apache License 2.0) and SpeechBrain
+(Apache License 2.0).

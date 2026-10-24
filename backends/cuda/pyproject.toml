@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lure-cuda"
+version = "0.1.0"
+description = "Lure TTS backend for NVIDIA GPUs (CUDA graphs, continuous batching)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE-faster-qwen3-tts"]
+# Install a CUDA build of torch first, and qwen-tts-hf with --no-deps (see README.md). qwen-tts-hf is not listed here
+# because its declared dependencies (gradio, sox, onnxruntime, torchaudio) are not needed and break some installs.
+dependencies = [
+  "lure-tts",
+  "torch>=2.5.1",
+  "transformers>=5.15.1,<6",
+  "accelerate==1.12.0",
+  "huggingface-hub>=1.5.0,<2.0",
+  "safetensors",
+  "numpy",
+  "soundfile",
+  "librosa",
+  "einops",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.entry-points."lure.backends"]
+cuda = "lure_cuda:CudaBackend"
+
+[tool.setuptools.packages.find]
+include = ["lure_cuda*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

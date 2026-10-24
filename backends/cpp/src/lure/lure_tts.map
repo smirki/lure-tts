@@ -1,0 +1,6 @@
+LURE_1 {
+    global:
+        lure_*;
+    local:
+        *;
+};

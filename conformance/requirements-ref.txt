@@ -1,0 +1,10 @@
+# ref_backend.py and reference/gen_reference.py: the qwen-tts reference implementation (CUDA GPU for ref_backend)
+torch==2.9.1
+torchaudio==2.9.1
+qwen-tts==0.1.1
+transformers==4.57.3
+numpy>=2.0
+soundfile>=0.13
+librosa
+soxr
+regex

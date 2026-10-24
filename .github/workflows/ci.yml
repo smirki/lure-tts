@@ -1,0 +1,76 @@
+name: CI
+
+# CPU-only checks. Nothing here downloads or runs the real model.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    name: core + conformance (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: sudo apt-get update && sudo apt-get install -y libsndfile1
+      - run: pip install -e ".[dev]"
+      - run: pytest -q core/tests conformance
+
+  cuda-cpu:
+    name: cuda backend (CPU tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y libsndfile1
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -r backends/cuda/requirements.txt
+      - run: pip install --no-deps qwen-tts-hf==0.1.1.post1
+      - run: pip install -e ".[dev]" && pip install --no-deps -e backends/cuda
+      - run: pytest -q backends/cuda/tests
+
+  mlx:
+    name: mlx backend (macOS arm64)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" ./backends/mlx
+      - run: pytest -q backends/mlx/tests
+
+  cpp:
+    name: cpp backend build (${{ matrix.preset }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            preset: linux-cpu
+          - os: macos-14
+            preset: macos-metal
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Install build tools (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ninja
+      - working-directory: backends/cpp
+        run: cmake --preset ${{ matrix.preset }} -G Ninja
+      - working-directory: backends/cpp
+        run: cmake --build build/${{ matrix.preset }} -j4 --target lure_tts lure_cli

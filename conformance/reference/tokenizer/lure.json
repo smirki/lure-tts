@@ -1,0 +1,6 @@
+{
+ "format": "lure-model-v1",
+ "family": "lure",
+ "prompt_layout": "non_streaming",
+ "inline_tags": true
+}

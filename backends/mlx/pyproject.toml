@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lure-mlx"
+version = "0.1.0"
+description = "Lure TTS backend for Apple silicon (adapter over mlx-audio)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE-mlx-audio"]
+dependencies = [
+  "lure-tts",
+  "mlx==0.32.4",
+  # Pinned: the adapter reaches into mlx-audio's Qwen3-TTS modules, which change between commits.
+  "mlx-audio @ git+https://github.com/Blaizzy/mlx-audio.git@402e3b9e4bd9bbecedc917b290896e5588c76f58",
+  "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.entry-points."lure.backends"]
+mlx = "lure_mlx:MLXBackend"
+
+[tool.setuptools.packages.find]
+include = ["lure_mlx*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
