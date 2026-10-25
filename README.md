@@ -5,6 +5,8 @@ any CPU, with one Python API, one CLI and one OpenAI-compatible server on top. E
 for token, the same text segmentation and the same sampling defaults, and a shared conformance suite checks the output
 against the qwen-tts reference implementation.
 
+[Online demo](https://huggingface.co/spaces/smirki/lure-tts).
+
 ```python
 from lure_tts import Lure
 
